@@ -13,11 +13,6 @@ interface ProgressGridProps {
   proteinGoal: number;
 }
 
-interface DailyAmounts {
-  calCounts: Record<string, number>;
-  proteinCounts: Record<string, number>;
-}
-
 export default function ProgressGrid({
   year,
   entries,
@@ -27,8 +22,7 @@ export default function ProgressGrid({
 }: ProgressGridProps) {
   const slots = useMemo(() => generateCalendarYear(year), [year]);
 
-  // Count total calories and protein each day
-  const entryCounts = useMemo((): DailyAmounts => {
+  const entryCounts = useMemo(() => {
     const calCounts: Record<string, number> = {};
     const proteinCounts: Record<string, number> = {};
 
@@ -41,38 +35,32 @@ export default function ProgressGrid({
       }
     });
     return { calCounts, proteinCounts };
-  }, [entries, year]);
+  }, [entries]);
 
-  // Group slots into months while preserving the 7-row grid structure
   const months = useMemo(() => {
     const monthGroups: Record<string, (typeof slots)[0][]> = {};
-
     slots.forEach((slot) => {
-      let mName = "Jan"; // Default for initial null padding
-      if (slot) {
-        mName = slot.date.toLocaleString("default", { month: "short" });
-      }
+      const mName = slot
+        ? slot.date.toLocaleString("default", { month: "short" })
+        : "Jan";
       if (!monthGroups[mName]) monthGroups[mName] = [];
       monthGroups[mName].push(slot);
     });
-
     return Object.entries(monthGroups);
   }, [slots]);
 
   return (
-    <div className="p-6 border rounded-xl bg-white dark:bg-zinc-950 overflow-x-auto shadow-sm">
-      <div className="flex gap-6 w-max items-end">
+    <div className="p-6 bg-white/50 backdrop-blur-md border border-white rounded-3xl shadow-sm overflow-x-auto no-scrollbar">
+      <div className="flex gap-8 w-max items-end">
         {months.map(([monthName, monthSlots]) => (
-          <div key={monthName} className="flex flex-col gap-3">
-            {/* The Grid: 7 rows high (Sun-Sat) */}
+          <div key={monthName} className="flex flex-col gap-4">
             <div
               className="grid grid-rows-7 grid-flow-col gap-1.5"
-              style={{ height: "120px" }} // Fixed height to keep months aligned
+              style={{ height: "130px" }}
             >
               {monthSlots.map((slot, i) => {
                 if (!slot)
                   return <div key={`empty-${i}`} className="w-4 h-4" />;
-
                 const cVal = entryCounts.calCounts[slot.dateString] || 0;
                 const pVal = entryCounts.proteinCounts[slot.dateString] || 0;
 
@@ -87,8 +75,7 @@ export default function ProgressGrid({
                 );
               })}
             </div>
-            {/* Month Label */}
-            <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-tighter text-center border-t border-zinc-100 dark:border-zinc-800 pt-1">
+            <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.15em] text-center">
               {monthName}
             </span>
           </div>
@@ -102,62 +89,40 @@ function DayBox({ date, calCount, proCount, limits }: any) {
   const calColor = getHexColor(cal, calCount, limits.maxCal, limits.minCal);
   const proColor = getHexColor(protein, proCount, limits.proteinGoal);
 
-  // If both empty, show standard track color
+  // Empty state: subtle and clean
   if (calCount === 0 && proCount === 0) {
     return (
       <div
         title={`${date}: No data`}
-        className="w-4 h-4 rounded-[3px] bg-zinc-100 dark:bg-zinc-900 transition-colors hover:bg-zinc-200 dark:hover:bg-zinc-800"
+        className="w-[14px] h-[14px] rounded-[3px] bg-zinc-100 transition-colors hover:bg-zinc-200"
       />
     );
   }
 
   return (
     <svg
-      width="16"
-      height="16"
+      width="14"
+      height="14"
       viewBox="0 0 16 16"
-      className="rounded-[3px] transition-all hover:scale-150 hover:z-10 cursor-pointer shadow-sm"
+      className="rounded-[3px] transition-all hover:scale-[1.7] hover:z-50 cursor-pointer"
       role="img"
     >
-      <title>{`${date} | Cal: ${calCount} | Protein: ${proCount}g`}</title>
-
-      {/* Left side with curved right edge */}
-      <path
-        d="
-      M0 0 
-      H8
-      C12 0 14 4 8 8
-      C2 12 4 16 8 16
-      H0
-      Z
-    "
-        fill={proColor}
-      />
-
-      {/* Right side with curved left edge */}
-      <path
-        d="
-      M8 0
-      C12 0 14 4 8 8
-      C2 12 4 16 8 16
-      H16
-      V0
-      Z
-    "
-        fill={calColor}
-      />
+      <title>{`${date} | Cal: ${calCount} | Pro: ${proCount}g`}</title>
+      <path d="M0 0 H8 C12 0 14 4 8 8 C2 12 4 16 8 16 H0 Z" fill={proColor} />
+      <path d="M8 0 C12 0 14 4 8 8 C2 12 4 16 8 16 H16 V0 Z" fill={calColor} />
     </svg>
   );
 }
 
-function getHexColor(type: string, val1: number, val2: number, val3 = 0) {
-  if (val1 === 0) return "#3f3f46"; // zinc-700 for empty
+function getHexColor(type: string, val: number, goal: number, min = 0) {
+  if (val === 0) return "#f4f4f5"; // zinc-100
+
   if (type === cal) {
-    if (val1 > val2) return "#ef4444"; // red-500
-    if (val1 > val3) return "#22c55e"; // green-500
-    return "#eab308"; // yellow-500
+    if (val > goal) return "#fda4af"; // rose-300 (Subtle red)
+    if (val > min) return "#6ee7b7"; // emerald-300 (Subtle green)
+    return "#fcd34d"; // amber-300 (Subtle yellow)
   }
-  // Protein: Meet goal (green) or under (red)
-  return val1 >= val2 ? "#22c55e" : "#ef4444";
+
+  // Protein
+  return val >= goal ? "#6ee7b7" : "#fb7185"; // emerald-300 : rose-400
 }

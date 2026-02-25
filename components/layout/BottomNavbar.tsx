@@ -3,20 +3,16 @@ import { HomeIcon, ClockIcon, UserIcon } from "@heroicons/react/24/solid";
 
 export default function BottomNavbar() {
   return (
-    <footer
-      id="bottomNavbar"
-      className="fixed bottom-0 z-50 w-full bg-amber-400 h-auto py-2"
-    >
-      {/* Dashboard | Today | Profile */}
-      <div className="flex flex-row justify-center gap-10">
-        <Link href="">
-          <HomeIcon className="h-8 w-8"></HomeIcon>
+    <footer className="fixed bottom-6 left-0 right-0 z-50 px-6 md:hidden">
+      <div className="flex justify-around items-center bg-zinc-900/90 backdrop-blur-xl rounded-3xl py-4 shadow-2xl">
+        <Link href="/">
+          <HomeIcon className="h-6 w-6 text-white" />
         </Link>
-        <Link href="">
-          <ClockIcon className="h-8 w-8"></ClockIcon>
+        <Link href="/log">
+          <ClockIcon className="h-6 w-6 text-zinc-500 hover:text-white" />
         </Link>
-        <Link href="">
-          <UserIcon className="h-8 w-8"></UserIcon>
+        <Link href="/profile">
+          <UserIcon className="h-6 w-6 text-zinc-500 hover:text-white" />
         </Link>
       </div>
     </footer>
