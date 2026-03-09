@@ -113,7 +113,8 @@ export default function OnboardingPage() {
 
               <button
                 onClick={() => setStep(2)}
-                className="w-full py-5 bg-zinc-900 text-white rounded-2xl font-bold hover:bg-black transition-all shadow-xl shadow-zinc-200"
+                disabled={loading || goals.calorieMin > goals.calories}
+                className="w-full py-5 bg-zinc-900 text-white rounded-2xl font-bold hover:bg-black transition-all shadow-xl shadow-zinc-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Continue to Siri Setup
               </button>
@@ -142,7 +143,7 @@ export default function OnboardingPage() {
                 {!apiKey ? (
                   <button
                     onClick={handleGenerateKey}
-                    className="w-full py-3 bg-white border border-zinc-200 rounded-xl text-sm font-bold text-zinc-700 hover:bg-zinc-50 transition-all"
+                    className="w-full py-3 bg-white border border-zinc-200 rounded-xl text-sm font-bold text-zinc-700 hover:bg-zinc-50 transition-all cursor-pointer"
                   >
                     Generate Siri Key
                   </button>
@@ -169,13 +170,13 @@ export default function OnboardingPage() {
                 <button
                   disabled={loading}
                   onClick={handleFinish}
-                  className="w-full py-5 bg-zinc-900 text-white rounded-2xl font-bold hover:bg-black transition-all shadow-xl shadow-zinc-200 disabled:opacity-50"
+                  className="w-full py-5 bg-zinc-900 text-white rounded-2xl font-bold hover:bg-black transition-all shadow-xl shadow-zinc-200 disabled:opacity-50 cursor-pointer"
                 >
                   {loading ? "Saving..." : "Finish Setup"}
                 </button>
                 <button
                   onClick={() => setStep(1)}
-                  className="text-zinc-400 text-xs font-bold uppercase tracking-widest hover:text-zinc-600 transition-all"
+                  className="text-zinc-400 text-xs font-bold uppercase tracking-widest hover:text-zinc-600 transition-all cursor-pointer"
                 >
                   Go Back
                 </button>

@@ -23,8 +23,13 @@ import {
   MoonIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-export default function UserNav() {
+export default function UserNav({
+  setIsOpen,
+}: {
+  setIsOpen: (open: boolean) => void;
+}) {
   const { isLoaded, isSignedIn, user } = useUser();
   const { signOut } = useClerk();
   const router = useRouter();
@@ -53,22 +58,34 @@ export default function UserNav() {
           </div>
         </div>
         <ul className="w-full">
-          <li className="flex h-10 align-middle rounded-lg gap-2 px-2 hover:bg-zinc-200 cursor-pointer ">
-            <div className="flex items-center justify-center">
-              <MicrophoneIcon className="h-5 w-5"></MicrophoneIcon>
-            </div>
-            <div className="flex items-center justify-center">
-              <span>Voice Commands</span>
-            </div>
+          <li className="flex h-10 align-middle rounded-lg px-2 hover:bg-zinc-200 cursor-pointer ">
+            <Link
+              href="/voice"
+              className="flex gap-2 w-full"
+              onClick={() => setIsOpen(false)}
+            >
+              <div className="flex items-center justify-center">
+                <MicrophoneIcon className="h-5 w-5"></MicrophoneIcon>
+              </div>
+              <div className="flex items-center justify-center">
+                <span>Voice Commands</span>
+              </div>
+            </Link>
           </li>
 
-          <li className="flex h-10 align-middle rounded-lg gap-2 px-2 hover:bg-zinc-200 cursor-pointer">
-            <div className="flex items-center justify-center">
-              <Cog6ToothIcon className="h-5 w-5"></Cog6ToothIcon>
-            </div>
-            <div className="flex items-center justify-center">
-              <span>Settings</span>
-            </div>
+          <li className="flex h-10 align-middle rounded-lg px-2 hover:bg-zinc-200 cursor-pointer">
+            <Link
+              href="/settings"
+              className="flex gap-2 w-full"
+              onClick={() => setIsOpen(false)}
+            >
+              <div className="flex items-center justify-center">
+                <Cog6ToothIcon className="h-5 w-5"></Cog6ToothIcon>
+              </div>
+              <div className="flex items-center justify-center">
+                <span>Settings</span>
+              </div>
+            </Link>
           </li>
 
           <li className="flex h-10 align-middle rounded-lg gap-2 px-2 hover:bg-zinc-200 cursor-pointer">

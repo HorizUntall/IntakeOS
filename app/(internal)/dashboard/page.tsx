@@ -8,22 +8,18 @@ import getTodayEntries from "@/lib/utils/getTodayEntries";
 import { cal, protein } from "@/types/entryType";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { getUserGoals } from "@/lib/users/getUserDetails";
 
 export default async function dashboard() {
   const { sessionClaims } = await auth();
+  const goals = await getUserGoals();
 
-  if (sessionClaims?.metadata?.onboardingComplete !== true) {
-    console.log(
-      "DEBUG SESSIONS:",
-      JSON.stringify(sessionClaims?.metadata, null, 2),
-    );
+  if (sessionClaims?.metadata?.onboardingComplete !== true || !goals) {
     redirect("/onboarding");
   }
 
   const user = await currentUser();
-  const maxCalories = 2000;
-  const minCalories = 1200;
-  const proteinGoal = 100;
+  const { calorieMin, calorieGoal, proteinGoal } = goals;
   const entries = await getEntries();
   const todayEntries = getTodayEntries(entries!);
   const todayAmounts = getTodayAmounts(todayEntries);
@@ -60,8 +56,8 @@ export default async function dashboard() {
             <CircularProgress
               type={cal}
               val1={currCal}
-              val2={maxCalories}
-              val3={minCalories}
+              val2={calorieGoal!}
+              val3={calorieMin!}
               size={210}
             />
           </div>
@@ -97,8 +93,8 @@ export default async function dashboard() {
             <ProgressGrid
               year={2026}
               entries={entries!}
-              maxCal={maxCalories}
-              minCal={minCalories}
+              maxCal={calorieGoal!}
+              minCal={calorieMin!}
               proteinGoal={proteinGoal}
             />
           </div>

@@ -53,7 +53,7 @@ export default function Header() {
                 )}
               </button>
 
-              {isOpen && <UserNav />}
+              {isOpen && <UserNav setIsOpen={setIsOpen} />}
             </div>
           </div>
         </div>
