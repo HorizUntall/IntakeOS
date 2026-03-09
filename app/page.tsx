@@ -1,7 +1,6 @@
-import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
+import { SignedOut, SignInButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import Link from "next/link";
 
 export default async function Home() {
   const { userId } = await auth();

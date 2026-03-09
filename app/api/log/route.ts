@@ -23,6 +23,9 @@ export async function POST(req: Request) {
 
   let { amount, type } = await req.json();
   type = type.trim().toLowerCase();
+  if (type === "cal") {
+    type = "calories";
+  }
 
   if (type !== "protein" && type !== "calories") {
     // return NextResponse.json({ error: "Invalid Entry Type" }, { status: 400 });

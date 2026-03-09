@@ -6,9 +6,20 @@ import { getEntries } from "@/lib/entries/entries";
 import { getTodayAmounts } from "@/lib/utils/getAmount";
 import getTodayEntries from "@/lib/utils/getTodayEntries";
 import { cal, protein } from "@/types/entryType";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 export default async function dashboard() {
+  const { sessionClaims } = await auth();
+
+  if (sessionClaims?.metadata?.onboardingComplete !== true) {
+    console.log(
+      "DEBUG SESSIONS:",
+      JSON.stringify(sessionClaims?.metadata, null, 2),
+    );
+    redirect("/onboarding");
+  }
+
   const user = await currentUser();
   const maxCalories = 2000;
   const minCalories = 1200;
@@ -95,9 +106,12 @@ export default async function dashboard() {
 
         {/* Today's Timeline */}
         <section className="space-y-4">
-          <h3 className="text-zinc-400 text-[10px] font-bold uppercase tracking-[0.2em] px-2">
-            Daily Feed
-          </h3>
+          <div className="flex items-center justify-between px-2">
+            <h3 className="text-zinc-400 text-[10px] font-bold uppercase tracking-[0.2em] px-2">
+              Daily Feed
+            </h3>
+          </div>
+
           <div className="bg-white/80 backdrop-blur-xl border border-white rounded-[2.5rem] p-8 md:p-10 shadow-sm">
             <TodayLog todayEntries={todayEntries!} />
           </div>

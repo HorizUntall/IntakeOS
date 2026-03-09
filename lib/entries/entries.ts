@@ -68,7 +68,7 @@ export const deleteEntry = async (id: number) => {
     .delete(entries)
     .where(and(eq(entries.id, id), eq(entries.userId, userId)));
 
-  revalidatePath("/");
+  revalidatePath("/dashboard");
 };
 
 export const editEntry = async (id: number, amount: number) => {

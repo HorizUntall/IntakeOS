@@ -27,11 +27,19 @@ export default function ProgressGrid({
     const proteinCounts: Record<string, number> = {};
 
     entries.forEach((entry) => {
-      const day = new Date(entry.createdAt).toISOString().split("T")[0];
+      // Create a local date object
+      const d = new Date(entry.createdAt);
+
+      // Generate a YYYY-MM-DD string based on LOCAL time, not UTC
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      const localDay = `${year}-${month}-${day}`;
+
       if (entry.type === cal) {
-        calCounts[day] = (calCounts[day] || 0) + entry.amount;
+        calCounts[localDay] = (calCounts[localDay] || 0) + entry.amount;
       } else if (entry.type === protein) {
-        proteinCounts[day] = (proteinCounts[day] || 0) + entry.amount;
+        proteinCounts[localDay] = (proteinCounts[localDay] || 0) + entry.amount;
       }
     });
     return { calCounts, proteinCounts };

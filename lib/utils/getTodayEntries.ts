@@ -3,11 +3,15 @@ import { Entry } from "@/types/entry";
 function isToday(dateInput: Date | string, todayReference: Date): boolean {
   const date = new Date(dateInput);
 
-  return (
-    date.getUTCFullYear() === todayReference.getUTCFullYear() &&
-    date.getUTCMonth() === todayReference.getUTCMonth() &&
-    date.getUTCDate() === todayReference.getUTCDate()
+  // Set both to local midnight to compare only the calendar day
+  const d1 = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const d2 = new Date(
+    todayReference.getFullYear(),
+    todayReference.getMonth(),
+    todayReference.getDate(),
   );
+
+  return d1.getTime() === d2.getTime();
 }
 
 export default function getTodayEntries(entries: Entry[]) {
