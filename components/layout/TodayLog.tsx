@@ -1,7 +1,7 @@
 "use client";
 
 import { Entry } from "@/types/entry";
-import { cal, protein } from "@/types/entryType";
+import { type_protein, type_cal } from "@/types/entryType";
 import { useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { deleteEntry } from "@/lib/entries/entries";
@@ -22,8 +22,9 @@ export default function TodayLog({ todayEntries }: TodayLogProps) {
     if (!hourlyEntries[hour]) {
       hourlyEntries[hour] = { cal: [], protein: [] };
     }
-    if (entry.type === cal) hourlyEntries[hour].cal.push(entry);
-    else if (entry.type === protein) hourlyEntries[hour].protein.push(entry);
+    if (entry.type === type_cal) hourlyEntries[hour].cal.push(entry);
+    else if (entry.type === type_protein)
+      hourlyEntries[hour].protein.push(entry);
   });
 
   const activeHours = Object.keys(hourlyEntries)

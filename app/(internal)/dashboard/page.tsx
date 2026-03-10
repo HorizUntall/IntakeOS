@@ -5,7 +5,7 @@ import TodayLog from "@/components/layout/TodayLog";
 import { getEntries } from "@/lib/entries/entries";
 import { getTodayAmounts } from "@/lib/utils/getAmount";
 import getTodayEntries from "@/lib/utils/getTodayEntries";
-import { cal, protein } from "@/types/entryType";
+import { type_protein, type_cal } from "@/types/entryType";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { getUserGoals } from "@/lib/users/getUserDetails";
@@ -54,7 +54,7 @@ export default async function dashboard() {
               Calories
             </h3>
             <CircularProgress
-              type={cal}
+              type={type_cal}
               val1={currCal}
               val2={calorieGoal!}
               val3={calorieMin!}
@@ -71,7 +71,7 @@ export default async function dashboard() {
               Protein
             </h3>
             <CircularProgress
-              type={protein}
+              type={type_protein}
               val1={currProtein}
               val2={proteinGoal}
               size={210}

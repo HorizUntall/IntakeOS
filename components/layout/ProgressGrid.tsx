@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { cal, protein } from "@/types/entryType";
+import { type_protein, type_cal } from "@/types/entryType";
 import { generateCalendarYear } from "@/lib/utils/dateHelper";
 import { Entry } from "@/types/entry";
 
@@ -36,9 +36,9 @@ export default function ProgressGrid({
       const day = String(d.getDate()).padStart(2, "0");
       const localDay = `${year}-${month}-${day}`;
 
-      if (entry.type === cal) {
+      if (entry.type === type_cal) {
         calCounts[localDay] = (calCounts[localDay] || 0) + entry.amount;
-      } else if (entry.type === protein) {
+      } else if (entry.type === type_protein) {
         proteinCounts[localDay] = (proteinCounts[localDay] || 0) + entry.amount;
       }
     });
@@ -94,8 +94,13 @@ export default function ProgressGrid({
 }
 
 function DayBox({ date, calCount, proCount, limits }: any) {
-  const calColor = getHexColor(cal, calCount, limits.maxCal, limits.minCal);
-  const proColor = getHexColor(protein, proCount, limits.proteinGoal);
+  const calColor = getHexColor(
+    type_cal,
+    calCount,
+    limits.maxCal,
+    limits.minCal,
+  );
+  const proColor = getHexColor(type_protein, proCount, limits.proteinGoal);
 
   // Empty state: subtle and clean
   if (calCount === 0 && proCount === 0) {
@@ -125,7 +130,7 @@ function DayBox({ date, calCount, proCount, limits }: any) {
 function getHexColor(type: string, val: number, goal: number, min = 0) {
   if (val === 0) return "#f4f4f5"; // zinc-100
 
-  if (type === cal) {
+  if (type === type_cal) {
     if (val > goal) return "#fda4af"; // rose-300 (Subtle red)
     if (val > min) return "#6ee7b7"; // emerald-300 (Subtle green)
     return "#fcd34d"; // amber-300 (Subtle yellow)

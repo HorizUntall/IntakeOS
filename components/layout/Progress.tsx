@@ -1,4 +1,4 @@
-import { cal, protein } from "@/types/entryType";
+import { type_protein, type_cal } from "@/types/entryType";
 
 interface ProgressProps {
   type: string;
@@ -27,7 +27,7 @@ export default function CircularProgress({
   let progressColor = "text-zinc-800";
   let status = "";
 
-  if (type === cal) {
+  if (type === type_cal) {
     if (val1 < val3) {
       progressColor = "text-amber-500";
       status = "Keep going";

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db/drizzle";
 import { entries } from "@/lib/db/schema";
 import { auth } from "@clerk/nextjs/server";
-import { cal, protein } from "@/types/entryType";
+import { type_protein, type_cal } from "@/types/entryType";
 
 export const getEntries = async () => {
   const { userId } = await auth();
@@ -28,7 +28,7 @@ export const addEntry = async (amount: number, type: string) => {
   const { userId } = await auth();
   if (!userId) return;
 
-  if (type !== cal && type !== protein) {
+  if (type !== type_protein && type !== type_cal) {
     return;
   }
   await db.insert(entries).values({
@@ -46,7 +46,9 @@ export const addEntries = async (data: { amount: number; type: string }[]) => {
 
   const validEntries = data
     .filter(
-      (item) => (item.type === cal || item.type === protein) && item.amount > 0,
+      (item) =>
+        (item.type === type_protein || item.type === type_cal) &&
+        item.amount > 0,
     )
     .map((item) => ({
       ...item,

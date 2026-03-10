@@ -2,7 +2,7 @@
 
 import { addEntries } from "@/lib/entries/entries";
 import { useState } from "react";
-import { cal, protein } from "@/types/entryType";
+import { type_cal, type_protein } from "@/types/entryType";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function AddEntry() {
@@ -24,9 +24,9 @@ export default function AddEntry() {
   const submitEntry = async (event: React.FormEvent) => {
     event.preventDefault();
     const entriesToSave = [];
-    if (calAmt > 0) entriesToSave.push({ amount: calAmt, type: cal });
+    if (calAmt > 0) entriesToSave.push({ amount: calAmt, type: type_cal });
     if (proteinAmt > 0)
-      entriesToSave.push({ amount: proteinAmt, type: protein });
+      entriesToSave.push({ amount: proteinAmt, type: type_protein });
 
     if (entriesToSave.length > 0) {
       await addEntries(entriesToSave);
