@@ -88,7 +88,10 @@ export default function UserNav({
             </Link>
           </li>
 
-          <li className="flex h-10 align-middle rounded-lg gap-2 px-2 hover:bg-zinc-200 cursor-pointer">
+          <li
+            className="flex h-10 align-middle rounded-lg gap-2 px-2 hover:bg-zinc-200 cursor-pointer"
+            onClick={() => alert("Feature not added yet. Sorry 😞")}
+          >
             <div className="flex items-center justify-center">
               <MoonIcon className="h-5 w-5"></MoonIcon>
             </div>
