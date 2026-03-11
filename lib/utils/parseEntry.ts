@@ -23,20 +23,19 @@ export function parseEntryGET(input: string) {
   const hasHowMuchOrMany = /how (much|many)/.test(text);
   const isRemaining = /remaining|left/.test(text);
   const hasCalories = /calories|calorie|cal|cals|kcal/.test(text);
-  const hasProtein = /protein|g|grams|gram/.test(text);
+  const hasProtein = /\b(protein|g|gram|grams)\b/.test(text);
 
   if (hasHowMuchOrMany || isRemaining || hasCalories || hasProtein) {
-    let res = "";
+    let res = isRemaining ? "remaining_" : "";
 
-    if (isRemaining) {
-      res += "remaining_";
-    }
     if (hasCalories && hasProtein) {
       res += "both";
     } else if (hasCalories) {
       res += "calories";
     } else if (hasProtein) {
       res += "protein";
+    } else if (isRemaining) {
+      res += "both";
     } else {
       return null;
     }
