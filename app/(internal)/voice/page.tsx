@@ -9,8 +9,12 @@ import {
   PhotoIcon,
 } from "@heroicons/react/24/outline";
 import { getUserKey } from "@/lib/users/getUserDetails";
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
 
-export default function VoiceSupportPage() {
+export default async function VoiceSupportPage() {
+  const { userId } = await auth();
+  if (!userId) redirect("/");
   const [activeTab, setActiveTab] = useState<"log" | "status">("log");
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
