@@ -15,7 +15,7 @@ export default function VoiceSupportPage() {
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
   // Constants - Replace with your real logic
-  const baseUrl = "https://intake-os-pearl.vercel.app/m";
+  const baseUrl = "https://intake-os-pearl.vercel.app/";
   // const apiKey = "your_actual_api_key_here";
   const apiKey = getUserKey();
 
