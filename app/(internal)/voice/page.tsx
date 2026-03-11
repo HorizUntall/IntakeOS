@@ -8,14 +8,16 @@ import {
   ChartBarIcon,
   PhotoIcon,
 } from "@heroicons/react/24/outline";
+import { getUserKey } from "@/lib/users/getUserDetails";
 
 export default function VoiceSupportPage() {
   const [activeTab, setActiveTab] = useState<"log" | "status">("log");
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
   // Constants - Replace with your real logic
-  const baseUrl = "https://your-domain.com";
-  const apiKey = "your_actual_api_key_here";
+  const baseUrl = "https://intake-os-pearl.vercel.app/m";
+  // const apiKey = "your_actual_api_key_here";
+  const apiKey = getUserKey();
 
   const copyToClipboard = (text: string, fieldId: string) => {
     navigator.clipboard.writeText(text);
