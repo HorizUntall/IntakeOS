@@ -13,9 +13,7 @@ export default function VoiceSupportForm({ user }: { user: any }) {
   const [activeTab, setActiveTab] = useState<"log" | "status">("log");
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
-  // Constants - Replace with your real logic
   const baseUrl = "https://intakeostracker.vercel.app";
-  // const apiKey = "your_actual_api_key_here";
   const apiKey = user.apiKey;
 
   const copyToClipboard = (text: string, fieldId: string) => {
