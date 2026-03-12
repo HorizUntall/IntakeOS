@@ -154,33 +154,43 @@ export default function VoiceSupportForm({ user }: { user: any }) {
           )}
         </div>
 
-        {/* Right Side: Visual Reference */}
-        <div className="lg:col-span-2">
-          <div className="sticky top-24 space-y-4">
-            <h4 className="text-sm font-bold text-zinc-400 uppercase tracking-widest flex items-center gap-2">
-              <PhotoIcon className="w-4 h-4" />
-              Shortcut Reference
-            </h4>
-            <div className="aspect-[9/16] w-full bg-zinc-100 rounded-[2.5rem] border-[8px] border-zinc-200 shadow-xl overflow-hidden flex items-center justify-center relative">
-              {/* Replace 'src' with your actual screenshot path later */}
-              <div className="text-center p-6">
-                <PhotoIcon className="w-12 h-12 text-zinc-300 mx-auto mb-2" />
-                <p className="text-xs text-zinc-400 font-medium">
-                  Upload your shortcut screenshot here
-                  <br />
-                  for the {activeTab === "log" ? "POST" : "GET"} flow
-                </p>
+        {activeTab === "log" && (
+          <div className="lg:col-span-2">
+            <div className="sticky top-24 space-y-4">
+              <h4 className="text-sm font-bold text-zinc-400 uppercase tracking-widest flex items-center gap-2">
+                <PhotoIcon className="w-4 h-4" />
+                Shortcut Reference
+              </h4>
+              <div className="w-full rounded-[2.5rem] border-[8px] border-zinc-200 shadow-xl overflow-hidden flex items-center justify-center relative p-3 bg-black">
+                <img
+                  src="/images/sslog.png"
+                  className="object-cover w-full h-full"
+                  alt="Shortcut Screenshot"
+                />
               </div>
-              {/* Once you have your image, use:
-                  <img src="/path-to-your-screenshot.png" className="object-cover w-full h-full" alt="Shortcut Screenshot" /> 
-               */}
             </div>
-            <p className="text-[11px] text-zinc-400 leading-relaxed px-4">
-              Your shortcut should look exactly like this screenshot. Ensure
-              variables (blue pills) are mapped correctly.
-            </p>
           </div>
-        </div>
+        )}
+
+        {activeTab === "status" && (
+          <div className="lg:col-span-2">
+            <div className="sticky top-24 space-y-4">
+              <h4 className="text-sm font-bold text-zinc-400 uppercase tracking-widest flex items-center gap-2">
+                <PhotoIcon className="w-4 h-4" />
+                Shortcut Reference
+              </h4>
+              <div className="w-full rounded-[2.5rem] border-[8px] border-zinc-200 shadow-xl overflow-hidden flex items-center justify-center relative p-3 bg-black">
+                <img
+                  src="/images/ssupdate.png"
+                  className="object-cover w-full h-full"
+                  alt="Shortcut Screenshot"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Right Side: Visual Reference */}
       </div>
     </div>
   );
