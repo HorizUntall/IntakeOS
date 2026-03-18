@@ -15,6 +15,20 @@
       "when": 1773227056012,
       "tag": "0001_curly_malice",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1773817872518,
+      "tag": "0002_narrow_molly_hayes",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1773818619038,
+      "tag": "0003_acoustic_black_tarantula",
+      "breakpoints": true
     }
   ]
 }
